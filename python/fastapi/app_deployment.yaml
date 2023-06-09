@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: testapp-fastapi
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: testapp-fastapi
+  template:
+    metadata:
+      labels:
+        app: testapp-fastapi
+    spec:
+      containers:
+      - name: testapp-fastapi
+        image: whatap/whatap_fastapi:0.1.0
+        ports:
+        - containerPort: 80
+        env:
+          - name: NODE_IP
+            valueFrom: { fieldRef: { fieldPath: status.hostIP } }
+          - name: NODE_NAME
+            valueFrom: { fieldRef: { fieldPath: spec.nodeName } }
+          - name: POD_NAME
+            valueFrom: { fieldRef: { fieldPath: metadata.name } }
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: testapp-fastapi-service
+spec:
+  selector:
+    app: testapp-fastapi
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+  type: LoadBalancer
+
+
+
+
