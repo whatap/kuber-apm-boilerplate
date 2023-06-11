@@ -1,9 +1,7 @@
 FROM node:12-alpine
-EXPOSE 80
-RUN mkdir -p /app
 WORKDIR /app
 COPY whatap.conf /app/
-COPY package*.json /app/
+COPY package*.json ./
 RUN npm i
-COPY index.js /app/
+COPY index.js index.js
 CMD ["npm", "start"]

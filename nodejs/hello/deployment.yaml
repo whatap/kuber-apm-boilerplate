@@ -16,7 +16,7 @@ spec:
       - name: hello
         image: whatap/hello
         ports:
-        - containerPort: 80
+        - containerPort: 8000
         env:
         - name: NODE_IP
           valueFrom: {fieldRef: {fieldPath: status.hostIP}}
@@ -37,5 +37,5 @@ spec:
   type: LoadBalancer
   ports:
   - protocol: TCP
-    port: 80
-    targetPort: 80
+    port: 8000
+    targetPort: 8000
