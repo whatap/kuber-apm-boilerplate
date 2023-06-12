@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-node-dep
+  labels:
+    app: my-node-dep
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: my-node-app
+  template:
+    metadata:
+      labels:
+        app: my-node-app
+    spec:
+      containers:
+      - name: my-node-app
+        image: nhkim/my-node-img
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 8080
+        env:
+        - name: NODE_IP
+          valueFrom: {fieldRef: {fieldPath: status.hostIP}}
+        - name: NODE_NAME
+          valueFrom: {fieldRef: {fieldPath: spec.nodeName}}
+        - name: POD_NAME
+          valueFrom: {fieldRef: {fieldPath: metadata.name}}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: my-node-ser
+spec:
+  selector:
+    app: my-node-app
+  type: LoadBalancer
+  ports:
+  - protocol: TCP
+    port: 5000
+    targetPort: 8080
+    nodePort: 31121
