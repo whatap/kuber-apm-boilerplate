@@ -33,7 +33,7 @@ WORK_DIR : ~/kuber-apm-boilerplate
 
     - 리눅스 
        ```
-       sed -i 's/{WHATAP_LICENSE}/YOUR-LICENSE-KEY/g' whatap_kube_1.16_test.yaml
+       sed -i 's/{WHATAP_LICENSE}/YOUR-LICENSE-KEY/g' whatap_kube_1.16.yaml
        ```
 
 2. yaml 파일 적용
