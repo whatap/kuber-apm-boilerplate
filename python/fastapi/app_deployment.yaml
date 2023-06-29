@@ -14,10 +14,12 @@ spec:
     spec:
       containers:
       - name: testapp-fastapi
-        image: whatap/whatap_fastapi:0.1.0
+        image: jjykim/whatap:fastapi_v3
         ports:
         - containerPort: 80
         env:
+          - name: WHATAP_LICENSE
+            value: {WHATAP_LICENSE}
           - name: NODE_IP
             valueFrom: { fieldRef: { fieldPath: status.hostIP } }
           - name: NODE_NAME
@@ -38,7 +40,3 @@ spec:
       port: 80
       targetPort: 80
   type: LoadBalancer
-
-
-
-

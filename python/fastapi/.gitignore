@@ -12,3 +12,4 @@ config
 src
 whatap_kube_1.16_my.yaml
 entrypoint_my.sh
+app_deployment_dd.yaml

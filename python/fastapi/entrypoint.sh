@@ -1,5 +1,5 @@
 #!/bin/bash
-
+export WHATAP_LICENSE=${WHATAP_LICENSE}
 export WHATAP_HOME=${PWD}
 chmod -R 777 $WHATAP_HOME
 whatap-setting-config \
