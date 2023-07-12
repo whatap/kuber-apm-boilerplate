@@ -1,5 +1,4 @@
 #!/bin/bash
-export WHATAP_LICENSE=${WHATAP_LICENSE}
 export WHATAP_HOME=${PWD}
 chmod -R 777 $WHATAP_HOME
 whatap-setting-config \
@@ -8,4 +7,4 @@ whatap-setting-config \
 --app_name myapp \
 --app_process_name uvicorn
 
-whatap-start-agent uvicorn server:app --host 0.0.0.0 --port 80
+whatap-start-agent uvicorn server:app --host 0.0.0.0 --port 9009

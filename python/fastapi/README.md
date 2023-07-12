@@ -11,7 +11,7 @@
 
 1. fast-api 어플리케이션 도커 이미지 생성
     
-    - entrypoint.sh 에 {WHATAP_LICENSE} 에 자신의 라이센스 키 입력해야함.
+    - entrypoint.sh 에 {WHATAP_ .LICENSE} 에 자신의 라이센스 키 입력해야함.
    
     ```
     ##e.g) docker build -t whatap/whatap_fastapi:0.1.0 .
