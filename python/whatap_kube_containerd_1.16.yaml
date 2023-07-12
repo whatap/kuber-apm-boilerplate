@@ -113,8 +113,8 @@ spec:
                 fieldRef:
                   fieldPath: spec.nodeName
           volumeMounts:
-            - name: dockerdomainsocket
-              mountPath: /var/run/docker.sock
+            - name: containerddomainsocket
+              mountPath: /run/containerd/containerd.sock
             - name: rootfs
               mountPath: /rootfs
               readOnly: true
@@ -124,6 +124,7 @@ spec:
             - name: hostdiskdevice
               mountPath: /dev/disk
               readOnly: true
+
         - name: whatap-node-agent
           image: whatap/kube_mon
           resources:
@@ -171,17 +172,14 @@ spec:
               name: whatap-config-volume
       volumes:
         - hostPath:
-            path: /var/run/docker.sock
-          name: dockerdomainsocket
+            path: /run/containerd/containerd.sock
+          name: containerddomainsocket
         - hostPath:
             path: /
           name: rootfs
         - hostPath:
             path: /sys
           name: hostsys
-        - hostPath:
-            path: /var/lib/docker
-          name: hostdocker
         - hostPath:
             path: /dev/disk
           name: hostdiskdevice
@@ -201,7 +199,7 @@ metadata:
 data:
   entrypoint.sh: |-
     #!/usr/bin/env bash
-    
+
     mkdir /whatap_conf/confbase -p
     if [ ! -f /whatap_conf/confbase/whatap_server.conf ]; then
     cat >/whatap_conf/confbase/whatap_server.conf <<EOL
@@ -227,6 +225,7 @@ data:
     JAVA_OPTS="$JAVA_OPTS -Dwhatap.home=/whatap_conf"
     
     java $JAVA_OPTS -cp /data/agent/confbase/whatap.agent.confbase-1.0.0.jar:/data/agent/master/whatap.kube.master-1.0.1.jar whatap.agent.App
+
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -258,7 +257,7 @@ spec:
           command: ['/bin/entrypoint.sh']
           env:
             - name: WHATAP_LICENSE
-              value: {WHATAP_LICENSE}
+              value: "x41nk237mpnag-z764g1kjn9sfpk-xidqq1cgl92l"
             - name: WHATAP_HOST
               value: "15.165.146.117"
             - name: WHATAP_PORT
@@ -281,8 +280,7 @@ spec:
             defaultMode: 0700
             name: master-start-script
         - name: whatap-config-volume
-          emptyDir: {}        
-
+          emptyDir: {}       
       serviceAccount: whatap
 ---
 apiVersion: v1
