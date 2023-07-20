@@ -9,13 +9,19 @@
 
 ### 설치 
 
+sample 이미지 사용
+1. kubectl apply -f app_deployment.yaml
+
+
+도커 생성한 이미지 사용하는 경우
 1. fast-api 어플리케이션 도커 이미지 생성
     
-    - entrypoint.sh 에 {WHATAP_ .LICENSE} 에 자신의 라이센스 키 입력해야함.
+    - entrypoint.sh 에 {WHATAP LICENSE} 에 자신의 라이센스 키 입력해야함.
    
     ```
     ##e.g) docker build -t whatap/whatap_fastapi:0.1.0 .
     docker build -t {docker_username}/{image_name}:{tag} .
+    docker push {docker_username}/{image_name}:{tag}
     ```
    
 2. fastapi 어플리케이션에 대한 yaml 파일 설정

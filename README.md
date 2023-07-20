@@ -28,18 +28,18 @@ WORK_DIR : ~/kuber-apm-boilerplate
 
     - mac
        ```
-       sed -i '' 's/{WHATAP_LICENSE}/YOUR-LICENSE-KEY/g' whatap_kube_1.16_test.yaml
+       sed -i '' 's/{WHATAP_LICENSE}/YOUR-LICENSE-KEY/g' whatap_kube_containerd_1.16.yaml
        ```
 
     - 리눅스 
        ```
-       sed -i 's/{WHATAP_LICENSE}/YOUR-LICENSE-KEY/g' whatap_kube_1.16.yaml
+       sed -i 's/{WHATAP_LICENSE}/YOUR-LICENSE-KEY/g' whatap_kube_containerd_1.16.yaml
        ```
 
 2. yaml 파일 적용
 
     ```
-    kubectl apply -f whatap_kube_1.16.yaml
+    kubectl apply -f whatap_kube_containerd_1.16.yaml
     ```
 
 ### 쿠버 에이전트와 APM 에이전트 연동

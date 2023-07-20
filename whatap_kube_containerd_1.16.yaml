@@ -257,7 +257,7 @@ spec:
           command: ['/bin/entrypoint.sh']
           env:
             - name: WHATAP_LICENSE
-              value: "x41nk237mpnag-z764g1kjn9sfpk-xidqq1cgl92l"
+              value: {WHATAP_LICENSE}
             - name: WHATAP_HOST
               value: "15.165.146.117"
             - name: WHATAP_PORT
