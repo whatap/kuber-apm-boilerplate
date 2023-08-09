@@ -7,4 +7,4 @@ whatap-setting-config \
 --app_name myapp \
 --app_process_name uvicorn
 
-whatap-start-agent uvicorn server:app --host 0.0.0.0 --port 9009
+whatap-start-agent uvicorn server:app --host 0.0.0.0 --port 8000

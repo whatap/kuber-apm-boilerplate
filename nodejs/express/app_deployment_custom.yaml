@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nodejs-express-deployment
+spec:
+  selector:
+    matchLabels:
+      app: nodejs-express-pod
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: nodejs-express-pod
+    spec:
+      containers:
+      - name: agent_nodejs_express
+        image: {APP-IMAGE-NAME}
+        ports:
+        - name: express-port
+          containerPort: 8000
+        env:
+        - name: NODE_IP
+          valueFrom: {fieldRef: {fieldPath: status.hostIP}}
+        - name: NODE_NAME
+          valueFrom: {fieldRef: {fieldPath: spec.nodeName}}
+        - name: POD_NAME
+          valueFrom: {fieldRef: {fieldPath: metadata.name}}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nodejs-express-service
+spec:
+  selector:
+    app: nodejs-express-pod
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: express-port
+  type: NodePort

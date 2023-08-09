@@ -1,42 +1,43 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: testapp-fastapi
+  name: python-fastapi-deployment
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: testapp-fastapi
+      app: python-fastapi-pod
   template:
     metadata:
       labels:
-        app: testapp-fastapi
+        app: python-fastapi-pod
     spec:
       containers:
-      - name: testapp-fastapi
-        image: {APP-IMAGE-NAME}
-        ports:
-        - containerPort: 80
-        env:
-          - name: WHATAP_LICENSE
-            value: {WHATAP_LICENSE}
-          - name: NODE_IP
-            valueFrom: { fieldRef: { fieldPath: status.hostIP } }
-          - name: NODE_NAME
-            valueFrom: { fieldRef: { fieldPath: spec.nodeName } }
-          - name: POD_NAME
-            valueFrom: { fieldRef: { fieldPath: metadata.name } }
+        - name: agent_python_fastapi
+          image: {APP-IMAGE-NAME}
+          ports:
+            - name: fastapi-port
+              containerPort: 8000
+          env:
+            - name: WHATAP_LICENSE
+              value: { WHATAP_LICENSE }
+            - name: NODE_IP
+              valueFrom: { fieldRef: { fieldPath: status.hostIP } }
+            - name: NODE_NAME
+              valueFrom: { fieldRef: { fieldPath: spec.nodeName } }
+            - name: POD_NAME
+              valueFrom: { fieldRef: { fieldPath: metadata.name } }
 
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: testapp-fastapi-service
+  name: python-fastapi-service
 spec:
   selector:
-    app: testapp-fastapi
+    app: python-fastapi-pod
   ports:
     - protocol: TCP
       port: 80
-      targetPort: 80
-  type: LoadBalancer
+      targetPort: fastapi-port
+  type: NodePort

@@ -1,22 +1,23 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: hello-deployment
+  name: nodejs-express-deployment
 spec:
   selector:
     matchLabels:
-      app: hello
-  replicas: 2
+      app: nodejs-express-pod
+  replicas: 1
   template:
     metadata:
       labels:
-        app: hello
+        app: nodejs-express-pod
     spec:
       containers:
-      - name: hello
-        image: whatap/hello
+      - name: agent_nodejs_express
+        image: whatap/agent_nodejs_express
         ports:
-        - containerPort: 8000
+        - name: express-port
+          containerPort: 8000
         env:
         - name: NODE_IP
           valueFrom: {fieldRef: {fieldPath: status.hostIP}}
@@ -24,18 +25,16 @@ spec:
           valueFrom: {fieldRef: {fieldPath: spec.nodeName}}
         - name: POD_NAME
           valueFrom: {fieldRef: {fieldPath: metadata.name}}
-        - name: OKIND
-          value: hello-kind
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: hello-service
+  name: nodejs-express-service
 spec:
   selector:
-    app: hello
-  type: LoadBalancer
+    app: nodejs-express-pod
   ports:
-  - protocol: TCP
-    port: 8000
-    targetPort: 8000
+    - protocol: TCP
+      port: 80
+      targetPort: express-port
+  type: NodePort

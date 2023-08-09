@@ -1,22 +1,23 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: testapp-fastapi
+  name: python-fastapi-deployment
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: testapp-fastapi
+      app: python-fastapi-pod
   template:
     metadata:
       labels:
-        app: testapp-fastapi
+        app: python-fastapi-pod
     spec:
       containers:
-      - name: testapp-fastapi
-        image: jjykim/python_sample:0.1.1
+      - name: agent_python_fastapi
+        image: whatap/agent_python_fastapi
         ports:
-        - containerPort: 80
+        - name: fastapi-port
+          containerPort: 8000
         env:
           - name: WHATAP_LICENSE
             value: {WHATAP_LICENSE}
@@ -31,12 +32,12 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: testapp-fastapi-service
+  name: python-fastapi-service
 spec:
   selector:
-    app: testapp-fastapi
+    app: python-fastapi-pod
   ports:
     - protocol: TCP
       port: 80
-      targetPort: 80
-  type: LoadBalancer
+      targetPort: fastapi-port
+  type: NodePort
