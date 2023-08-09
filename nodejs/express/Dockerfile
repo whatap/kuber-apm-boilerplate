@@ -4,4 +4,4 @@ COPY entrypoint.sh /app/
 COPY package*.json ./
 RUN npm i
 COPY index.js index.js
-CMD ["./entrypoint.sh"]
+CMD ["sh", "entrypoint.sh"]
