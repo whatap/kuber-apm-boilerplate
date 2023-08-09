@@ -4,4 +4,4 @@ COPY whatap.conf /app/
 COPY package*.json ./
 RUN npm i
 COPY index.js index.js
-CMD ["npm", "start"]
+CMD ["./entrypoint.sh"]
