@@ -13,8 +13,8 @@ spec:
         app: nodejs-express-pod
     spec:
       containers:
-      - name: agent_nodejs_express
-        image: whatap/agent_nodejs_express
+      - name: agent-nodejs-express
+        image: whatap/agent-nodejs-express
         ports:
         - name: express-port
           containerPort: 8000

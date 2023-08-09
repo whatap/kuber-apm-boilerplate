@@ -13,7 +13,7 @@ spec:
         app: nodejs-express-pod
     spec:
       containers:
-      - name: agent_nodejs_express
+      - name: agent-nodejs-express
         image: {APP-IMAGE-NAME}
         ports:
         - name: express-port
