@@ -13,8 +13,8 @@ spec:
         app: python-fastapi-pod
     spec:
       containers:
-      - name: agent_python_fastapi
-        image: whatap/agent_python_fastapi
+      - name: agent-python-fastapi
+        image: whatap/agent-python-fastapi
         ports:
         - name: fastapi-port
           containerPort: 8000

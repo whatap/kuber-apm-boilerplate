@@ -13,7 +13,7 @@ spec:
         app: python-fastapi-pod
     spec:
       containers:
-        - name: agent_python_fastapi
+        - name: agent-python-fastapi
           image: {APP-IMAGE-NAME}
           ports:
             - name: fastapi-port
