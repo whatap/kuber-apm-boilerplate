@@ -22,7 +22,7 @@
 ### 쿠버네티스 에이전트 설치
 WORK_DIR : ~/kuber-apm-boilerplate 
 
-1. 아래 명령어 실행을 통해 yaml 파일에 발급받은 라이센스 키를 입력
+1.  라이센스 키 입력
     
     whatap_kube_containerd_1.16.yaml 파일의 {WHATAP_LICENSE}에 발급받은 라이센스 키 입력
 
