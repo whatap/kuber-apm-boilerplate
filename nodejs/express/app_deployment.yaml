@@ -19,6 +19,10 @@ spec:
         - name: express-port
           containerPort: 8000
         env:
+        - name: WHATAP_LICENSE
+          value: {WHATAP_LICENSE}
+        - name: WHATAP_SERVER_HOST
+          value: {WHATAP_SERVER_HOST}
         - name: NODE_IP
           valueFrom: {fieldRef: {fieldPath: status.hostIP}}
         - name: NODE_NAME

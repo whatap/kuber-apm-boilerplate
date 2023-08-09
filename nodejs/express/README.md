@@ -13,7 +13,7 @@
 ## case 1(권장)
 node-sample 이미지 사용
 
-1. whatap.conf 파일의 {WHATAP_LICENSE}에 자신의 라이센스 키값 입력하고, {WHATAP_SERVER_HOST}에 호스트 입력
+1. app_deployment.yaml 파일의 {WHATAP_LICENSE}에 자신의 라이센스 키값 입력하고, {WHATAP_SERVER_HOST}에 호스트 입력
 2. app 배포하기 
 
    ```
@@ -23,7 +23,7 @@ node-sample 이미지 사용
 ## case 2
 도커에 직접 생성한 이미지 사용하는 경우
 
-1. whatap.conf 파일의 {WHATAP_LICENSE}에 자신의 라이센스 키값 입력하고, {WHATAP_SERVER_HOST}에 호스트 입력
+1. app_deployment.yaml 파일의 {WHATAP_LICENSE}에 자신의 라이센스 키값 입력하고, {WHATAP_SERVER_HOST}에 호스트 입력
 2. express 어플리케이션 도커 이미지 생성
    
     ```
