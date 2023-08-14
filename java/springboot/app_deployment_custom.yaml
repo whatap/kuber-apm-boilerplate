@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: java-springboot-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: java-springboot-pod
+  template:
+    metadata:
+      labels:
+        app: java-springboot-pod
+    spec:
+      containers:
+      - name: agent-java-springboot
+        image: {APP-IMAGE-NAME}
+        ports:
+        - containerPort: 8000
+      env:
+        - name: NODE_IP
+          valueFrom: { fieldRef: { fieldPath: status.hostIP } }
+        - name: NODE_NAME
+          valueFrom: { fieldRef: { fieldPath: spec.nodeName } }
+        - name: POD_NAME
+          valueFrom: { fieldRef: { fieldPath: metadata.name } }
+        - name: license
+          value: {WHATAP_LICENSE}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: java-springboot-service
+spec:
+  selector:
+    app: java-springboot-pod
+  ports:
+    - port: 80
+      targetPort: 8000
+  type: NodePort
