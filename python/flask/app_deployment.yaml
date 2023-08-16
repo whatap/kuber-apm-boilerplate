@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: python-flask-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: python-flask-pod
+  template:
+    metadata:
+      labels:
+        app: python-flask-pod
+    spec:
+      containers:
+      - name: agent-python-flask
+        image: whatap/agent-python-flask
+        ports:
+        - name: flask-port
+          containerPort: 8000
+        env:
+          - name: WHATAP_LICENSE
+            value: {WHATAP_LICENSE}
+          - name: WHATAP_LOGGING_ENABLED
+            value: true
+          - name: NODE_IP
+            valueFrom: { fieldRef: { fieldPath: status.hostIP } }
+          - name: NODE_NAME
+            valueFrom: { fieldRef: { fieldPath: spec.nodeName } }
+          - name: POD_NAME
+            valueFrom: { fieldRef: { fieldPath: metadata.name } }
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: python-flask-service
+spec:
+  selector:
+    app: python-flask-pod
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: flask-port
+  type: NodePort
