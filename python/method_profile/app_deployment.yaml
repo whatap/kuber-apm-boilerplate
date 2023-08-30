@@ -37,7 +37,7 @@ spec:
       volumes:
       - name: shared-data
         hostPath:
-          path: /Users/jaeyoung/work/share
+          path: {HOST_SHARE_PATH}
 ---
 apiVersion: v1
 kind: Service
