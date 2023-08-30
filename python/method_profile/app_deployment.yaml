@@ -8,7 +8,7 @@ spec:
       restartPolicy: Never
       containers:
       - name: agent-python-method
-        image: whatap/agent-python-method:0.1.1
+        image: whatap/agent-python-method:latest
         volumeMounts:
         - name: shared-data
           mountPath: /app/share
