@@ -1,22 +1,22 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: python-methodP-deployment
+  name: python-method-deployment
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: python-methodP-pod
+      app: python-method-pod
   template:
     metadata:
       labels:
-        app: python-methodP-pod
+        app: python-method-pod
     spec:
       containers:
-      - name: agent-python-methodP
-        image: whatap/agent-python-methodP
+      - name: agent-python-method
+        image: whatap/agent-python-method
         ports:
-        - name: methodP-port
+        - name: method-port
           containerPort: 8000
         volumeMounts:
         - name: shared-data
@@ -42,12 +42,12 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: python-methodP-service
+  name: python-method-service
 spec:
   selector:
-    app: python-methodP-pod
+    app: python-method-pod
   ports:
     - protocol: TCP
       port: 80
-      targetPort: methodP-port
+      targetPort: method-port
   type: NodePort
