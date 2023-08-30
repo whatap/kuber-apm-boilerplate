@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: python-methodP-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: python-methodP-pod
+  template:
+    metadata:
+      labels:
+        app: python-methodP-pod
+    spec:
+      containers:
+      - name: agent-python-methodP
+        image: whatap/agent-python-methodP
+        ports:
+        - name: methodP-port
+          containerPort: 8000
+        volumeMounts:
+        - name: shared-data
+          mountPath: /app/share
+        env:
+          - name: HASHTAG
+            value: {HASHTAG}
+          - name: WHATAP_LICENSE
+            value: {WHATAP_LICENSE}
+          - name: WHATAP_LOGGING_ENABLED
+            value: true
+          - name: NODE_IP
+            valueFrom: { fieldRef: { fieldPath: status.hostIP } }
+          - name: NODE_NAME
+            valueFrom: { fieldRef: { fieldPath: spec.nodeName } }
+          - name: POD_NAME
+            valueFrom: { fieldRef: { fieldPath: metadata.name } }
+      volumes:
+      - name: shared-data
+        hostPath:
+          path: /Users/jaeyoung/work/share
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: python-methodP-service
+spec:
+  selector:
+    app: python-methodP-pod
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: methodP-port
+  type: NodePort
