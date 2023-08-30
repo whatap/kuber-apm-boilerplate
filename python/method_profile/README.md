@@ -13,7 +13,7 @@
 ## case 1(권장)
 python-sample 이미지 사용
 
-1. app_deployment.yaml 파일 {WHATAP_LICENSE}에 자신의 라이센스 키값 입력
+1. app_deployment.yaml 파일 {WHATAP_LICENSE}에 자신의 라이센스 키값 입력, {HOST_MOUNT_PATH} 에 공유 디렉토리 경로 입력 
 2. app 배포하기 
 
    ```
@@ -34,7 +34,7 @@ python-sample 이미지 사용
     docker push {docker_username}/{image_name}:{tag}
     ```
    
-3. fastapi 어플리케이션에 대한 yaml 파일 설정
+3. method-profile 어플리케이션에 대한 yaml 파일 설정
 
    `아래 명령어에서 YOUR-IMAGE-NAME 을 위에서 생성한 이미지 이름 {docker_username}/{image_name}:{tag} 으로 변경하고 실행`
 
