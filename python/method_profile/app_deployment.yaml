@@ -1,23 +1,14 @@
-apiVersion: apps/v1
-kind: Deployment
+apiVersion: batch/v1
+kind: Job
 metadata:
-  name: python-method-deployment
+  name: python-method-job
 spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: python-method-pod
   template:
-    metadata:
-      labels:
-        app: python-method-pod
     spec:
+      restartPolicy: Never
       containers:
       - name: agent-python-method
-        image: whatap/agent-python-method
-        ports:
-        - name: method-port
-          containerPort: 8000
+        image: whatap/agent-python-method:0.1.1
         volumeMounts:
         - name: shared-data
           mountPath: /app/share
@@ -27,7 +18,7 @@ spec:
           - name: WHATAP_LICENSE
             value: {WHATAP_LICENSE}
           - name: WHATAP_LOGGING_ENABLED
-            value: true
+            value: {WHATAP_LOGGING_ENABLED}
           - name: NODE_IP
             valueFrom: { fieldRef: { fieldPath: status.hostIP } }
           - name: NODE_NAME
@@ -37,17 +28,4 @@ spec:
       volumes:
       - name: shared-data
         hostPath:
-          path: {HOST_SHARE_PATH}
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: python-method-service
-spec:
-  selector:
-    app: python-method-pod
-  ports:
-    - protocol: TCP
-      port: 80
-      targetPort: method-port
-  type: NodePort
+          path: /home/ec2-user/jykim_local/share
