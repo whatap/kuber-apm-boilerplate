@@ -9,9 +9,6 @@ spec:
       containers:
       - name: agent-python-method
         image: whatap/agent-python-method:latest
-        volumeMounts:
-        - name: shared-data
-          mountPath: /app/share
         env:
           - name: HASHTAG
             value: {HASHTAG}
@@ -25,7 +22,3 @@ spec:
             valueFrom: { fieldRef: { fieldPath: spec.nodeName } }
           - name: POD_NAME
             valueFrom: { fieldRef: { fieldPath: metadata.name } }
-      volumes:
-      - name: shared-data
-        hostPath:
-          path: /home/ec2-user/jykim_local/share
