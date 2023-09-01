@@ -2,7 +2,7 @@
 export WHATAP_HOME=${PWD}
 chmod -R 777 $WHATAP_HOME
 whatap-setting-config \
---host 15.165.146.117 \
+--host $WHATAP_SERVER_HOST \
 --license $WHATAP_LICENSE \
 --app_name method_profiling \
 --app_process_name python
