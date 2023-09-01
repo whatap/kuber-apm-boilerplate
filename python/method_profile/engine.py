@@ -11,7 +11,7 @@ class InstagramScraper:
     def _get_response(self, **kwargs):
         '''
             dictionary 형태의 response 획득
-            :param kwargs: url, headers, params, proxies, ... (same as requests.get)$
+            :param kwargs: url, headers, params, proxies, ... (same as requests.get)
             :return: response['in_direct', 'headers', 'status_code', 'text']
         '''
         ###requests 도중의 에러 ex) TimeOut, MaxtryError, ProxyError, ClientConnectionError 를 catch 하지 못함
@@ -98,7 +98,7 @@ class InstagramScraper:
             'tag_name': hashtag_name,
         }
         url = f'https://i.instagram.com/api/v1/tags/logged_out_web_info/'
-        self.logger.info(f"get_raw_instagram_hashtag 시작 // params:{params}, url:{url}")
+        self.logger.info(f"engine.get_raw_instagram_hashtag // params:{params}, url:{url}")
 
         raw_hashtag = self._get_text_with_retry(headers=headers, params=params, url=url)
 
