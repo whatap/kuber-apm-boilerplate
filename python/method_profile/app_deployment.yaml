@@ -14,6 +14,8 @@ spec:
             value: {HASHTAG}
           - name: WHATAP_LICENSE
             value: {WHATAP_LICENSE}
+          - name: WHATAP_SERVER_HOST
+            value: {WHATAP_SERVER_HOST}
           - name: WHATAP_LOGGING_ENABLED
             value: {WHATAP_LOGGING_ENABLED}
           - name: NODE_IP
