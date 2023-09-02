@@ -2,7 +2,7 @@
 export WHATAP_HOME=${PWD}
 chmod -R 777 $WHATAP_HOME
 whatap-setting-config \
---host $WHATAP_LICENSE \
+--host $WHATAP_SERVER_HOST \
 --license $WHATAP_LICENSE \
 --app_name $WHATAP_APP_NAME \
 --app_process_name uvicorn
