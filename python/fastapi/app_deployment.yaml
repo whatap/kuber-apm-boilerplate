@@ -23,6 +23,8 @@ spec:
             value: {WHATAP_SERVER_HOST}
           - name: WHATAP_LICENSE
             value: {WHATAP_LICENSE}
+          - name: WHATAP_LOGGING_ENABLED
+            value: {WHATAP_LOGGING_ENABLED}
           - name: NODE_IP
             valueFrom: { fieldRef: { fieldPath: status.hostIP } }
           - name: NODE_NAME
