@@ -7,7 +7,7 @@ from fastapi import FastAPI, HTTPException
 import uvicorn
 import requests
 from starlette.responses import HTMLResponse
-from kubernetes import client, config, watch
+from kubernetes import client, watch
 
 logging_logger = logging.getLogger()
 logging_logger.setLevel(logging.INFO)
@@ -16,7 +16,13 @@ stream_handler = logging.StreamHandler()
 stream_handler.setFormatter(formatter)
 logging_logger.addHandler(stream_handler)
 
-config.load_kube_config()
+config = client.Configuration()
+config.api_key['authorization'] = open('/var/run/secrets/kubernetes.io/serviceaccount/token').read()
+config.api_key_prefix['authorization'] = 'Bearer'
+config.host = 'https://kubernetes.default'
+config.ssl_ca_cert = '/var/run/secrets/kubernetes.io/serviceaccount/ca.crt'
+config.verify_ssl = False
+
 batch_v1 = client.BatchV1Api()
 
 app = FastAPI()
