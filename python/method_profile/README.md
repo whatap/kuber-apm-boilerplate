@@ -12,13 +12,14 @@
 
 ## case 1(권장)
 python-sample 이미지 사용
-해당 이미지는 sns 의 데이터를 수집하고 Mount 된 경로에 데이터를 저장하는 서비스를 제공합니다.
-따라서 검색하고자 하는 키워드를 yaml 에 입력해야합니다.
+해당 이미지는 sns 의 데이터를 수집합니다.
+와탭의 설정 정보와 추가적으로 검색하고자 하는 키워드를 yaml 에 입력해야합니다.
 
 1. app_deployment.yaml 파일 {WHATAP_LICENSE}에 자신의 라이센스 키값 입력
 2. app_deployment.yaml 파일 {WHATAP_SERVER_HOST}에 와탭 수집서버 IP 입력
-3. {HASHTAG}에 어플리케이션을 통해 검색할 값을 입력하고 {HOST_MOUNT_PATH} 에 공유 디렉토리 경로 입력 
-4. app 배포하기 
+3. app_deployment.yaml 파일 {WHATAP_APP_NAME}에 와탭에서 표시되는 어플리케이션 이름 입력 
+4. {HASHTAG}에 어플리케이션을 통해 검색할 값을 입력 
+5. app 배포하기 
 
    ```
    kubectl apply -f app_deployment.yaml

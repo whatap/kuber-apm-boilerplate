@@ -19,6 +19,8 @@ spec:
         - name: fastapi-port
           containerPort: 8000
         env:
+          - name: WHATAP_SERVER_HOST
+            value: {WHATAP_SERVER_HOST}
           - name: WHATAP_LICENSE
             value: {WHATAP_LICENSE}
           - name: NODE_IP
