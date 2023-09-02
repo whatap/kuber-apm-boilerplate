@@ -62,15 +62,28 @@ def k8s_trigger_job(hashtag):
     WHATAP_SERVER_HOST = os.getenv("WHATAP_SERVER_HOST")
     WHATAP_LICENSE = os.getenv("WHATAP_LICENSE")
     WHATAP_APP_NAME = f"HASHTAG_SEARCH_{hashtag}"
+    WHATAP_LOGGING_ENABLED = os.getenv("WHATAP_LOGGING_ENABLED")
+
+    NODE_IP = client.V1EnvVarSource(field_ref=client.V1ObjectFieldSelector(field_path="status.hostIP"))
+    NODE_NAME = client.V1EnvVarSource(field_ref=client.V1ObjectFieldSelector(field_path="spec.nodeName"))
+    POD_NAME = client.V1EnvVarSource(field_ref=client.V1ObjectFieldSelector(field_path="metadata.name"))
     def create_job_object():
-        # Configureate Pod template container
+        # Configurate Pod template container
         container = client.V1Container(
             name='agent-python-method',
             image='whatap/agent-python-method:latest',
-            env=[client.V1EnvVar(name="WHATAP_SERVER_HOST", value=WHATAP_SERVER_HOST),
-                 client.V1EnvVar(name="WHATAP_LICENSE", value=WHATAP_LICENSE),
-                 client.V1EnvVar(name="HASHTAG", value=hashtag),
-                 client.V1EnvVar(name="APP_NAME", value=WHATAP_APP_NAME)])
+            env=[
+                client.V1EnvVar(name="WHATAP_SERVER_HOST", value=WHATAP_SERVER_HOST),
+                client.V1EnvVar(name="WHATAP_LICENSE", value=WHATAP_LICENSE),
+                client.V1EnvVar(name="WHATAP_LOGGING_ENABLED", value=WHATAP_LOGGING_ENABLED),
+                client.V1EnvVar(name="HASHTAG", value=hashtag),
+                client.V1EnvVar(name="WHATAP_APP_NAME", value=WHATAP_APP_NAME),
+                client.V1EnvVar(name="NODE_IP", value_from=NODE_IP),
+                client.V1EnvVar(name="NODE_NAME", value_from=NODE_NAME),
+                client.V1EnvVar(name="POD_NAME", value_from=POD_NAME)
+                ]
+        )
+
         # Create and configurate a spec section
         template = client.V1PodTemplateSpec(
             spec=client.V1PodSpec(restart_policy='Never', containers=[container]))
@@ -86,12 +99,12 @@ def k8s_trigger_job(hashtag):
     def create_job(api_instance, job):
         api_response = api_instance.create_namespaced_job(
             body=job,
-            namespace='default')
+            namespace='jobs')
         print("Job created. status='%s'" % str(api_response.status))
     def delete_job(api_instance):
         api_response = api_instance.delete_namespaced_job(
             name=JOB_NAME,
-            namespace='default',
+            namespace='jobs',
             body=client.V1DeleteOptions(
                 propagation_policy='Foreground',
                 grace_period_seconds=0))
