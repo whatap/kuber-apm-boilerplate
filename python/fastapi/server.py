@@ -8,6 +8,9 @@ import uvicorn
 import requests
 from starlette.responses import HTMLResponse
 from kubernetes import client, watch
+import ssl
+
+ssl._create_default_https_context = ssl._create_unverified_context
 
 logging_logger = logging.getLogger()
 logging_logger.setLevel(logging.INFO)
@@ -21,9 +24,9 @@ config.api_key['authorization'] = open('/var/run/secrets/kubernetes.io/serviceac
 config.api_key_prefix['authorization'] = 'Bearer'
 config.host = 'https://kubernetes.default'
 config.ssl_ca_cert = '/var/run/secrets/kubernetes.io/serviceaccount/ca.crt'
-config.verify_ssl = False
+config.verify_ssl = True
 
-batch_v1 = client.BatchV1Api()
+batch_v1 = client.BatchV1Api(api_client=client.ApiClient(config))
 
 app = FastAPI()
 @app.get("/health_check")
