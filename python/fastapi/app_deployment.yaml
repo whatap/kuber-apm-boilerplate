@@ -40,7 +40,7 @@ metadata:
   name: python-fastapi-deployment
   namespace: k8s-edu-ondemand-hashtag
 spec:
-  replicas: 3
+  replicas: 1
   selector:
     matchLabels:
       app: python-fastapi-pod
