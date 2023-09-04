@@ -108,12 +108,12 @@ def k8s_trigger_job(hashtag):
     def create_job(api_instance, job):
         api_response = api_instance.create_namespaced_job(
             body=job,
-            namespace='hashtag')
+            namespace='k8s-edu-ondemand-hashtag')
         print("Job created. status='%s'" % str(api_response.status))
     def delete_job(api_instance):
         api_response = api_instance.delete_namespaced_job(
             name=JOB_NAME,
-            namespace='hashtag',
+            namespace='k8s-edu-ondemand-hashtag',
             body=client.V1DeleteOptions(
                 propagation_policy='Foreground',
                 grace_period_seconds=0))

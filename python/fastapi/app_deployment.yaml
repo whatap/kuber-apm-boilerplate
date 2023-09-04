@@ -1,13 +1,13 @@
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: edu-ondemand-hashtag
+  name: k8s-edu-ondemand-hashtag
 ---
 apiVersion: v1
 kind: ServiceAccount
 metadata:
   name: edu
-  namespace: edu-ondemand-hashtag
+  namespace: k8s-edu-ondemand-hashtag
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
@@ -15,7 +15,7 @@ metadata:
   annotations:
     rbac.authorization.kubernetes.io/autoupdate: "true"
   name: edu
-  namespace: edu-ondemand-hashtag
+  namespace: k8s-edu-ondemand-hashtag
 rules:
   - apiGroups: ["*"]
     resources: ["*"]
@@ -32,15 +32,15 @@ roleRef:
 subjects:
   - kind: ServiceAccount
     name: edu
-    namespace: edu-ondemand-hashtag
+    namespace: k8s-edu-ondemand-hashtag
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: python-fastapi-deployment
-  namespace: edu-ondemand-hashtag
+  namespace: k8s-edu-ondemand-hashtag
 spec:
-  replicas: 1
+  replicas: 3
   selector:
     matchLabels:
       app: python-fastapi-pod
@@ -75,7 +75,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  namespace: edu-ondemand-hashtag
+  namespace: k8s-edu-ondemand-hashtag
   name: python-fastapi-service
 spec:
   selector:
