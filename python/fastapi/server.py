@@ -148,8 +148,8 @@ def k8s_get_data(hashtag):
     else:
         return {"message": "no data"}
 
-@app.post("/k8s/save/{hashtag}")
-def k8s_save_data(hashtag, patch: Result=Body(), include_in_schema=False):
+@app.post("/k8s/save/{hashtag}", include_in_schema=False)
+def k8s_save_data(hashtag, patch: Result=Body()):
     ### 파일에 performance 데이터 저장하기
     with open(file=f"data/{hashtag}.csv", mode="a+") as f:
         f.seek(0)
