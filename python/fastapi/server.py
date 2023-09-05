@@ -145,7 +145,6 @@ def k8s_trigger_job(hashtag):
 @app.get("/k8s/job/{hashtag}", tags=["hashtag"])
 def k8s_get_data(hashtag):
     if os.path.isfile(f"data/{hashtag}.csv"):
-        mydict = {}
         with open(file=f"data/{hashtag}.csv", mode="r") as f:
             reader = csv.reader(f)
             attrs = []
