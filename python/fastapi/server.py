@@ -33,7 +33,7 @@ stream_handler.setFormatter(formatter)
 logging_logger.addHandler(stream_handler)
 
 config = client.Configuration()
-# config.api_key['authorization'] = open('/var/run/secrets/kubernetes.io/serviceaccount/token').read()
+config.api_key['authorization'] = open('/var/run/secrets/kubernetes.io/serviceaccount/token').read()
 config.api_key_prefix['authorization'] = 'Bearer'
 config.host = 'https://kubernetes.default'
 config.ssl_ca_cert = '/var/run/secrets/kubernetes.io/serviceaccount/ca.crt'
