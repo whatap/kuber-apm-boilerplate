@@ -35,7 +35,7 @@ def get_top_posts(hashtag):
     for post in data.top_posts:
         with open(file=f"data.csv", mode="a+") as f:
             f.seek(0)
-            text_append = f"{data.name}\t{post.caption}\t{post.like_count}\t{post.comment_count}\t{post.hashtags}\t{post.shortcode}\t{post.url}\t{post.taken_at_timestamp}"
+            text_append = f"{data.name}\t{post.caption}\t{post.like_count}\t{post.comment_count}\t{post.hashtags}\t{post.shortcode}\t{str(post.url)}\t{post.taken_at_timestamp}"
 
             if f.read():
                 ### 내용이 존재하면 받아온값을 추가해준다.
@@ -46,7 +46,7 @@ def get_top_posts(hashtag):
                 f.write(f"\n{text_append}")
 
         send_data = {"hashtag": data.name, "caption": post.caption, "like_count": post.like_count,
-                     "comment_count": post.comment_count, "shortcode": post.shortcode, "url": post.url,
+                     "comment_count": post.comment_count, "shortcode": post.shortcode, "url": str(post.url),
                      "timestamp": post.taken_at_timestamp}
         try:
             requests.post(url=f"https://{NODE_IP}:{NODE_PORT}/k8s/save/{hashtag}", json=send_data)
