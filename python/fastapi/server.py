@@ -145,19 +145,12 @@ def k8s_trigger_job(hashtag):
 @app.get("/k8s/job/{hashtag}", tags=["hashtag"])
 def k8s_get_data(hashtag):
     if os.path.isfile(f"data/{hashtag}.csv"):
-        with open(file=f"data/{hashtag}.csv", mode="r") as f:
-            reader = csv.reader(f)
-            attrs = []
-            result = []
-            for row in reader:
-                if len(attrs) < 1:
-                    attrs = row
-                    continue
-                temp_row_dict = dict()
-                for key, value in zip(attrs, row):
-                    temp_row_dict[key] = value
-                result.append(temp_row_dict)
-        return result
+        with open(file=f'data/{hashtag}.csv', newline='', encoding='utf-8') as csvfile:
+            csv_reader = csv.DictReader(csvfile, delimiter='\t')
+            data_list = [row for row in csv_reader]
+
+        # 딕셔너리로 변환한 데이터 출력
+        return data_list
     else:
         return {"message": "no data"}
 
