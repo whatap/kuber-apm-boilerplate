@@ -49,7 +49,7 @@ def get_top_posts(hashtag):
                      "comment_count": post.comment_count, "shortcode": post.shortcode, "url": str(post.url),
                      "timestamp": post.taken_at_timestamp}
         try:
-            requests.post(url=f"https://{NODE_IP}:{NODE_PORT}/k8s/save/{hashtag}", json=send_data)
+            requests.post(url=f"http://{NODE_IP}:{NODE_PORT}/k8s/save/{hashtag}", json=send_data)
         except Exception as e:
             logger.error(e)
 
