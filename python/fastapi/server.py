@@ -3,11 +3,13 @@ import logging
 import hashlib
 from datetime import datetime, timedelta
 from loguru import logger as loguru_logger
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Body
 import uvicorn
 import requests
 from starlette.responses import HTMLResponse
-from kubernetes import client, watch
+from kubernetes import client
+from models import Result
+import csv
 import ssl
 
 ssl._create_default_https_context = ssl._create_unverified_context
@@ -27,7 +29,7 @@ config.ssl_ca_cert = '/var/run/secrets/kubernetes.io/serviceaccount/ca.crt'
 config.verify_ssl = True
 
 batch_v1 = client.BatchV1Api(api_client=client.ApiClient(config))
-
+core_v1 = client.CoreV1Api(api_client=client.ApiClient(config))
 app = FastAPI()
 @app.get("/health_check")
 async def health_check():
@@ -73,6 +75,8 @@ def k8s_trigger_job(hashtag):
     WHATAP_APP_NAME = f"HASHTAG_SEARCH_{hashtag}"
     WHATAP_LOGGING_ENABLED = os.getenv("WHATAP_LOGGING_ENABLED")
 
+    service = core_v1.read_namespaced_service(name="python-fastapi-service", namespace="k8s-edu-ondemand-hashtag")
+    NODE_PORT = service.node_port
     NODE_IP = client.V1EnvVarSource(field_ref=client.V1ObjectFieldSelector(field_path="status.hostIP"))
     NODE_NAME = client.V1EnvVarSource(field_ref=client.V1ObjectFieldSelector(field_path="spec.nodeName"))
     POD_NAME = client.V1EnvVarSource(field_ref=client.V1ObjectFieldSelector(field_path="metadata.name"))
@@ -88,6 +92,7 @@ def k8s_trigger_job(hashtag):
                 client.V1EnvVar(name="HASHTAG", value=hashtag),
                 client.V1EnvVar(name="WHATAP_APP_NAME", value=WHATAP_APP_NAME),
                 client.V1EnvVar(name="NODE_IP", value_from=NODE_IP),
+                client.V1EnvVar(name="NODE_PORT", value_from=NODE_PORT),
                 client.V1EnvVar(name="NODE_NAME", value_from=NODE_NAME),
                 client.V1EnvVar(name="POD_NAME", value_from=POD_NAME)
                 ]
@@ -105,6 +110,7 @@ def k8s_trigger_job(hashtag):
             metadata=client.V1ObjectMeta(name=JOB_NAME),
             spec=spec)
         return job
+
     def create_job(api_instance, job):
         api_response = api_instance.create_namespaced_job(
             body=job,
@@ -122,6 +128,42 @@ def k8s_trigger_job(hashtag):
     job = create_job_object()
     create_job(api_instance=batch_v1, job=job)
 
+@app.get("/k8s/job/{hashtag}")
+def k8s_get_data(hashtag):
+    if os.path.isfile(f"data/{hashtag}.csv"):
+        mydict = {}
+        with open(file=f"data/{hashtag}.csv", mode="r") as f:
+            reader = csv.reader(f)
+            attrs = []
+            result = []
+            for row in reader:
+                if len(attrs) < 1:
+                    attrs = row
+                    continue
+                temp_row_dict = dict()
+                for key, value in zip(attrs, row):
+                    temp_row_dict[key] = value
+                result.append(temp_row_dict)
+        return result
+    else:
+        return {"message": "no data"}
+
+@app.post("/k8s/save/{hashtag}")
+def k8s_save_data(hashtag, patch: Result=Body(), include_in_schema=False):
+    ### 파일에 performance 데이터 저장하기
+    with open(file=f"data/{hashtag}.csv", mode="a+") as f:
+        f.seek(0)
+        text_append = f"{patch.hashtag}\t{patch.caption}\t{patch.like_count}\t{patch.comment_count}\t{patch.related_tags}\t{patch.shortcode}\t{patch.url}\t{patch.timestamp}"
+
+        if f.read():
+            ### 내용이 존재하면 받아온값을 추가해준다.
+            f.write(f"\n{text_append}")
+
+        else:
+            ### 내용이 존재하지 않으면 칼럼을 먼저 추가하고 내용을 추가한다.
+            f.write(f"hashtag\tcaption\tlike_count\tcomment_count\trelated_tags\tshortcode\turl\ttimestamp")
+            f.write(f"\n{text_append}")
+    return {"hashtag": hashtag}
 
 if __name__ == "__main__":
     uvicorn.run(app="server:app", host="0.0.0.0", port=8000, reload=True)
