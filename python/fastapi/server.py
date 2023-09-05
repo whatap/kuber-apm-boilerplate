@@ -12,6 +12,17 @@ from models import Result
 import csv
 import ssl
 
+tags_metadata = [
+    {
+        "name": "trace",
+        "description": "쿠버네티스 어플리케이션 배포 실습 - 와탭 트레이스 추적 예제",
+    },
+    {
+        "name": "hashtag",
+        "description": "쿠버네티스 어플리케이션 배포 실습 - 해시태그 검색 서비스",
+    },
+]
+
 ssl._create_default_https_context = ssl._create_unverified_context
 
 logging_logger = logging.getLogger()
@@ -22,7 +33,7 @@ stream_handler.setFormatter(formatter)
 logging_logger.addHandler(stream_handler)
 
 config = client.Configuration()
-config.api_key['authorization'] = open('/var/run/secrets/kubernetes.io/serviceaccount/token').read()
+# config.api_key['authorization'] = open('/var/run/secrets/kubernetes.io/serviceaccount/token').read()
 config.api_key_prefix['authorization'] = 'Bearer'
 config.host = 'https://kubernetes.default'
 config.ssl_ca_cert = '/var/run/secrets/kubernetes.io/serviceaccount/ca.crt'
@@ -30,8 +41,9 @@ config.verify_ssl = True
 
 batch_v1 = client.BatchV1Api(api_client=client.ApiClient(config))
 core_v1 = client.CoreV1Api(api_client=client.ApiClient(config))
-app = FastAPI()
-@app.get("/health_check")
+app = FastAPI(title="whatap-k8s", docs_url="/whatap", openapi_tags=tags_metadata)
+
+@app.get("/health_check", tags=["trace"])
 async def health_check():
     logging_logger.info("this is logging_logger_message")
     loguru_logger.info(f"this is loguru_logger_message")
@@ -42,7 +54,7 @@ async def health_check():
     requests.get(url="https://fastapi.tiangolo.com/lo/")
     return {"message": "health_check"}
 
-@app.get("/error_check")
+@app.get("/error_check", tags=["trace"])
 async def error_check():
     start_time = datetime.now()
     while True:
@@ -51,7 +63,7 @@ async def error_check():
     requests.get(url="https://www.naver.com")
     raise HTTPException(status_code=400)
 
-@app.get("/use_memory")
+@app.get("/use_memory", tags=["trace"])
 def use_memory():
     start_time = datetime.now()
     while True:
@@ -62,7 +74,7 @@ def use_memory():
         test_list.append(i)
     return HTMLResponse(status_code=200)
 
-@app.post("/k8s/job/{hashtag}")
+@app.post("/k8s/job/{hashtag}", tags=["hashtag"])
 def k8s_trigger_job(hashtag):
     try:
         job_hash = int(hashlib.sha256(hashtag.encode('utf-8')).hexdigest(), 16) % 10**8
@@ -77,8 +89,7 @@ def k8s_trigger_job(hashtag):
 
     service = core_v1.read_namespaced_service(name="python-fastapi-service", namespace="k8s-edu-ondemand-hashtag")
     port_info = service.spec.ports[0]
-    NODE_PORT = port_info.node_port
-
+    NODE_PORT = str(port_info.node_port)
 
     NODE_IP = client.V1EnvVarSource(field_ref=client.V1ObjectFieldSelector(field_path="status.hostIP"))
     NODE_NAME = client.V1EnvVarSource(field_ref=client.V1ObjectFieldSelector(field_path="spec.nodeName"))
@@ -131,7 +142,7 @@ def k8s_trigger_job(hashtag):
     job = create_job_object()
     create_job(api_instance=batch_v1, job=job)
 
-@app.get("/k8s/job/{hashtag}")
+@app.get("/k8s/job/{hashtag}", tags=["hashtag"])
 def k8s_get_data(hashtag):
     if os.path.isfile(f"data/{hashtag}.csv"):
         mydict = {}
