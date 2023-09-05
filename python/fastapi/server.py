@@ -76,7 +76,10 @@ def k8s_trigger_job(hashtag):
     WHATAP_LOGGING_ENABLED = os.getenv("WHATAP_LOGGING_ENABLED")
 
     service = core_v1.read_namespaced_service(name="python-fastapi-service", namespace="k8s-edu-ondemand-hashtag")
-    NODE_PORT = service.node_port
+    port_info = service.spec.ports[0]
+    NODE_PORT = port_info.node_port
+
+
     NODE_IP = client.V1EnvVarSource(field_ref=client.V1ObjectFieldSelector(field_path="status.hostIP"))
     NODE_NAME = client.V1EnvVarSource(field_ref=client.V1ObjectFieldSelector(field_path="spec.nodeName"))
     POD_NAME = client.V1EnvVarSource(field_ref=client.V1ObjectFieldSelector(field_path="metadata.name"))
