@@ -94,8 +94,8 @@ def k8s_trigger_job(hashtag):
                 client.V1EnvVar(name="WHATAP_LOGGING_ENABLED", value=WHATAP_LOGGING_ENABLED),
                 client.V1EnvVar(name="HASHTAG", value=hashtag),
                 client.V1EnvVar(name="WHATAP_APP_NAME", value=WHATAP_APP_NAME),
+                client.V1EnvVar(name="NODE_PORT", value=NODE_PORT),
                 client.V1EnvVar(name="NODE_IP", value_from=NODE_IP),
-                client.V1EnvVar(name="NODE_PORT", value_from=NODE_PORT),
                 client.V1EnvVar(name="NODE_NAME", value_from=NODE_NAME),
                 client.V1EnvVar(name="POD_NAME", value_from=POD_NAME)
                 ]
