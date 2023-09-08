@@ -17,7 +17,7 @@ spec:
         image: {APP-IMAGE-NAME}
         ports:
         - containerPort: 8000
-      env:
+        env:
         - name: NODE_IP
           valueFrom: { fieldRef: { fieldPath: status.hostIP } }
         - name: NODE_NAME
