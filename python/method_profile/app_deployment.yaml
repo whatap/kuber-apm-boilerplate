@@ -12,14 +12,14 @@ spec:
         env:
           - name: HASHTAG
             value: {HASHTAG}
-          - name: WHATAP_LICENSE
-            value: {WHATAP_LICENSE}
-          - name: WHATAP_SERVER_HOST
-            value: {WHATAP_SERVER_HOST}
-          - name: WHATAP_APP_NAME
-            value: {WHATAP_APP_NAME}
-          - name: WHATAP_LOGGING_ENABLED
-            value: {WHATAP_LOGGING_ENABLED}
+          - name: license
+            value: {license}
+          - name: whatap_server_host
+            value: {whatap_server_host}
+          - name: app_name
+            value: {app_name}
+          - name: app_process_name
+            value: {app_process_name}
           - name: NODE_IP
             valueFrom: { fieldRef: { fieldPath: status.hostIP } }
           - name: NODE_NAME

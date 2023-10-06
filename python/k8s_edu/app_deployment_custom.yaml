@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: python-fastapi-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: python-fastapi-pod
+  template:
+    metadata:
+      labels:
+        app: python-fastapi-pod
+    spec:
+      containers:
+        - name: agent-python-fastapi
+          image: {APP-IMAGE-NAME}
+          ports:
+            - name: fastapi-port
+              containerPort: 8000
+          env:
+            - name: WHATAP_LICENSE
+              value: {WHATAP_LICENSE}
+            - name: whatap_server_host
+              value: {whatap_server_host}
+            - name: app_name
+              value: {app_name}
+            - name: app_process_name
+              value: {app_process_name}
+            - name: NODE_IP
+              valueFrom: { fieldRef: { fieldPath: status.hostIP } }
+            - name: NODE_NAME
+              valueFrom: { fieldRef: { fieldPath: spec.nodeName } }
+            - name: POD_NAME
+              valueFrom: { fieldRef: { fieldPath: metadata.name } }
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: python-fastapi-service
+spec:
+  selector:
+    app: python-fastapi-pod
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: fastapi-port
+  type: NodePort

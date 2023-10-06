@@ -19,14 +19,20 @@ spec:
             - name: fastapi-port
               containerPort: 8000
           env:
-            - name: WHATAP_LICENSE
-              value: { WHATAP_LICENSE }
-            - name: NODE_IP
-              valueFrom: { fieldRef: { fieldPath: status.hostIP } }
-            - name: NODE_NAME
-              valueFrom: { fieldRef: { fieldPath: spec.nodeName } }
-            - name: POD_NAME
-              valueFrom: { fieldRef: { fieldPath: metadata.name } }
+          - name: license
+            value: {license}
+          - name: whatap_server_host
+            value: {whatap_server_host}
+          - name: app_name
+            value: {app_name}
+          - name: app_process_name
+            value: {app_process_name}
+          - name: NODE_IP
+            valueFrom: { fieldRef: { fieldPath: status.hostIP } }
+          - name: NODE_NAME
+            valueFrom: { fieldRef: { fieldPath: spec.nodeName } }
+          - name: POD_NAME
+            valueFrom: { fieldRef: { fieldPath: metadata.name } }
 
 ---
 apiVersion: v1

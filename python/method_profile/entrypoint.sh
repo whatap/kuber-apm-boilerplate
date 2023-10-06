@@ -2,12 +2,16 @@
 export WHATAP_HOME=${PWD}
 chmod -R 777 $WHATAP_HOME
 whatap-setting-config \
---host $WHATAP_SERVER_HOST \
---license $WHATAP_LICENSE \
---app_name $WHATAP_APP_NAME \
---app_process_name python
+--host $whatap_server_host \
+--license $license \
+--app_name $app_name \
+--app_process_name $app_process_name
 
-echo "trace_logging_enabled=${WHATAP_LOGGING_ENABLED}" >> whatap.conf
-echo "log_unhandled_exception=${WHATAP_LOGGING_ENABLED}" >> whatap.conf
-echo "profile_basetime=0" >> whatap.conf
+
+# 로그 수집 활성화
+echo "logsink_enabled=true" >> whatap.conf
+echo "logsink_trace_enabled=true" >> whatap.conf
+echo "trace_logging_enabled=true" >> whatap.conf
+echo "log_unhandled_exception=true" >> whatap.conf
+
 whatap-start-agent python main.py
