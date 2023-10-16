@@ -1,3 +1,10 @@
 app_deployment.yaml
 app_deployment_custom.yaml
 venv
+logs
+run
+whatap.conf
+whatap_home
+whatap_python
+whatap_python.pid
+paramkey.txt

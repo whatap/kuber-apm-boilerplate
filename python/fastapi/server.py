@@ -53,8 +53,8 @@ def use_memory():
 
 @app.get("/log", tags=["trace"])
 def log():
-    for i in range(0, 100000000):
-        print(f"100000000_WHATAP_JYKIM_LOGTEST:{i}")
+    for i in range(0, 10000):
+        print(f"10000_WHATAP_JYKIM_LOGTEST:{i}")
     return HTMLResponse(status_code=200)
 
 if __name__ == "__main__":
