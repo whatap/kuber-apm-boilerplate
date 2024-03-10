@@ -1,3 +1,5 @@
+import time
+
 from django.shortcuts import render
 import requests
 from django.http import HttpResponse
@@ -20,6 +22,14 @@ def home(request):
 def health_check(request):
     logging_logger.info("health_check-logging-test")
     loguru_logger.info(f"health_check-loguru-test")
+    url = "https://www.naver.com"
+    requests.get(url=url)
+    return HttpResponse(f"health_check")
+
+def active_stack_check(request):
+    logging_logger.info("active_stack_check-logging-test")
+    loguru_logger.info(f"active_stack_check-loguru-test")
+    time.sleep(8)
     url = "https://www.naver.com"
     requests.get(url=url)
     return HttpResponse(f"health_check")
