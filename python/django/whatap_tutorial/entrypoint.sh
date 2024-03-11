@@ -13,7 +13,7 @@ whatap-setting-config \
 --host $whatap_server_host \
 --license $license \
 --app_name $app_name \
---app_process_name $python
+--app_process_name app_process_name
 
 # 아래 주석처리된 부분은 Optional 설정으로 필요한 경우에만 사용합니다.
 # 이 외에도 로그, 트랜젝션 등의 설정을 할 수 있습니다.
