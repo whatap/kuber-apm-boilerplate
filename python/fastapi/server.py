@@ -3,11 +3,10 @@ import logging
 import hashlib
 from datetime import datetime, timedelta
 from loguru import logger as loguru_logger
-from fastapi import FastAPI, HTTPException, Body
+from fastapi import FastAPI, HTTPException, Request
 import uvicorn
 import requests
 from starlette.responses import HTMLResponse
-from kubernetes import client
 from models import Result
 import csv
 
@@ -30,6 +29,22 @@ async def health_check():
             break
     requests.get(url="https://fastapi.tiangolo.com/lo/")
     return {"message": "health_check"}
+
+@app.get("/whatap_test")
+async def whatap_test(req:Request):
+    logging_logger.info("start:health_test")
+    message = str(dict(req.headers))
+    message = message.replace('{', '')
+    message = message.replace('}', '')
+    message = message.replace("'", '')
+
+    logging_logger.info(f"message:{message}")
+    start_time = datetime.now()
+    while True:
+        if datetime.now() - start_time > timedelta(seconds=1):
+            break
+    res = requests.get(url="https://www.naver.com")
+    return {"test": "test"}
 
 @app.get("/error_check", tags=["trace"])
 async def error_check():
