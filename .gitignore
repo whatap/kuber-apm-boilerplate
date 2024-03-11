@@ -5,3 +5,4 @@ paramkey.txt
 __pycache__/
 config
 src
+.env
