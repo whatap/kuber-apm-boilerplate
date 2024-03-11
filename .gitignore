@@ -3,6 +3,5 @@ run
 paramkey.txt
 *.log
 __pycache__/
-config
 src
 .env
