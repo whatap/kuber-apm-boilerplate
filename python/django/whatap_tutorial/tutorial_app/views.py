@@ -1,3 +1,4 @@
+import os
 import time
 
 from django.shortcuts import render
@@ -17,6 +18,7 @@ logging_logger.addHandler(stream_handler)
 def home(request):
     logging_logger.info("home")
     loguru_logger.info(f"home")
+    print(f"test:home:{os.environ}")
     return HttpResponse(f"home")
 
 def health_check(request):
