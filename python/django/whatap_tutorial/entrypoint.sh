@@ -12,7 +12,7 @@ chmod -R 777 $WHATAP_HOME
 whatap-setting-config \
 --host 15.165.146.117 \
 --license x40v722l501va-x7kiik1ersmi8l-x2eo4s4dbh8mr8 \
---app_name python-elb-django \
+--app_name python-ubuntu-django \
 --app_process_name gunicorn
 
 # 아래 주석처리된 부분은 Optional 설정으로 필요한 경우에만 사용합니다.

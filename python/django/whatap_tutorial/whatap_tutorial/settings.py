@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-!cd-w^blsm0cf&9gc-ltor8_x@g@pbo043k03j(s)v6nk+#&=8
 DEBUG = True
 
 # allow all host
-ALLOWED_HOSTS = ["django-qqq-env.eba-igyvftav.ap-northeast-2.elasticbeanstalk.com"]
+ALLOWED_HOSTS = ["django-qqq-env.eba-igyvftav.ap-northeast-2.elasticbeanstalk.com", "*"]
 
 
 # Application definition
@@ -124,14 +124,3 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# Amazon credentials will be taken from environment variable.
-CELERY_BROKER_URL = 'sqs://'
-CELERY_BROKER_TRANSPORT_OPTIONS = {
-  'region': 'ap-northeast-2',
-  'visibility_timeout': 3600,
-  'polling_interval': 10,
-  'queue_name_prefix': '%s-' % {
-    True: 'dev',
-    False: 'production'}[DEBUG],
-  'CELERYD_PREFETCH_MULTIPLIER': 0,
-}
