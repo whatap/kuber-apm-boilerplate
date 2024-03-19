@@ -1,0 +1,20 @@
+# WHATAP GUIDE DOCUMENTS
+# https://www.whatap.io/document/guide/WHATAP_PYTHON_GETTING_STARTED.pdf
+# https://www.whatap.io/document/guide/WHATAP_PYTHON_INSTALL_GUIDE.pdf
+# https://www.whatap.io/document/guide/WHATAP_PYTHON_CONFIGURATION_GUIDE.pdf
+
+license=x42eg202960vn-x1hpafehq08daj-z1pmhm6acaktut
+whatap.server.host=15.165.146.117
+
+# application name
+app_name=ubuntu-django
+
+# middleware process name ex)uwsgi, gunicorn ..
+app_process_name=gunicorn
+
+logsink_enabled=true
+logsink_trace_enabled=true
+trace_logging_enabled=true
+
+net_udp_port=6601
+OID=2091568724
