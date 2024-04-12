@@ -3,6 +3,7 @@ import time
 import requests
 from django.http import HttpResponse
 import logging
+from .tasks import add, mul, xsum
 from loguru import logger as loguru_logger
 # Create your views here.
 
@@ -17,7 +18,13 @@ def home(request):
     logging_logger.info("home")
     loguru_logger.info(f"home")
     print(f"test:home:{os.environ}")
-    return HttpResponse(f"home")
+    return HttpResponse("home")
+
+def celery_test(request):
+    logging_logger.info("celery_test")
+    loguru_logger.info("celery_test")
+    add.delay(2, 3)
+    return HttpResponse("celery_test")
 
 def health_check(request):
     logging_logger.info("health_check-logging-test")
