@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: python-fastapi-deployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: python-fastapi-pod
+  template:
+    metadata:
+      labels:
+        app: python-fastapi-pod
+    spec:
+      containers:
+      - name: agent-python-fastapi
+        image: registry.whatap.io:5000/demo-petclinic-deploy-python
+        ports:
+        - name: fastapi-port
+          containerPort: 8000
+        env:
+        - name: license
+          value: x604kdg82hlpd-z7ifh4na92dtp2-x7hkehn5dti9sc
+        - name: whatap_server_host
+          value: 13.124.11.223/13.209.172.35
+        - name: app_name
+          value: python-demo
+        - name: app_process_name
+          value: gunicorn
+        - name: NODE_IP
+          valueFrom: { fieldRef: { fieldPath: status.hostIP } }
+        - name: NODE_NAME
+          valueFrom: { fieldRef: { fieldPath: spec.nodeName } }
+        - name: POD_NAME
+          valueFrom: { fieldRef: { fieldPath: metadata.name } }
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: python-fastapi-service
+spec:
+  selector:
+    app: python-fastapi-pod
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: fastapi-port
+  type: NodePort

@@ -20,13 +20,13 @@ spec:
           containerPort: 8000
         env:
         - name: license
-          value: {license}
+          value: x604kdg82hlpd-z7ifh4na92dtp2-x7hkehn5dti9sc
         - name: whatap_server_host
-          value: {whatap_server_host}
+          value: 13.124.11.223/13.209.172.35
         - name: app_name
-          value: {app_name}
+          value: python-demo
         - name: app_process_name
-          value: {app_process_name}
+          value: gunicorn
         - name: NODE_IP
           valueFrom: { fieldRef: { fieldPath: status.hostIP } }
         - name: NODE_NAME
