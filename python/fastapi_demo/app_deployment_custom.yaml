@@ -27,6 +27,8 @@ spec:
             value: {app_name}
           - name: app_process_name
             value: {app_process_name}
+          - name: whatap.okind
+            value: {whatap.okind}
           - name: NODE_IP
             valueFrom: { fieldRef: { fieldPath: status.hostIP } }
           - name: NODE_NAME

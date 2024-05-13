@@ -1,14 +1,10 @@
-import os
 import logging
-import hashlib
 from datetime import datetime, timedelta
 from loguru import logger as loguru_logger
 from fastapi import FastAPI, HTTPException, Request
 import uvicorn
 import requests
 from starlette.responses import HTMLResponse
-from models import Result
-import csv
 
 logging_logger = logging.getLogger()
 logging_logger.setLevel(logging.INFO)
@@ -69,7 +65,7 @@ def use_memory():
 @app.get("/log", tags=["trace"])
 def log():
     for i in range(0, 10000):
-        print(f"10000_WHATAP_JYKIM_LOGTEST:{i}")
+        print(f"10000_WHATAP_LOGTEST:{i}")
     return HTMLResponse(status_code=200)
 
 if __name__ == "__main__":

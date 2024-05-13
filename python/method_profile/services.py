@@ -1,4 +1,6 @@
 import os
+import time
+
 from engine import InstagramScraper
 from extractor import Extractor
 from whatap import method_profiling
@@ -16,6 +18,14 @@ logger.addHandler(stream_handler)
 
 NODE_IP = os.getenv("NODE_IP")
 NODE_PORT = os.getenv("NODE_PORT")
+
+@method_profiling
+def test():
+    time.sleep(3)
+    url = "http://www.naver.com"
+    response = requests.get(url)
+    print(response.status_code)
+
 @method_profiling
 def get_top_posts(hashtag):
 

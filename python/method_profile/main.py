@@ -1,9 +1,4 @@
-from services import get_top_posts
+from services import test
 import time
-import os
-time.sleep(3)
-hashtag = os.getenv("HASHTAG")
-get_top_posts(hashtag)
-time.sleep(300)
-
-
+time.sleep(5)
+test()
