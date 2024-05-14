@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: python-fastapi-deployment
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
       app: python-fastapi-pod
@@ -13,27 +13,28 @@ spec:
         app: python-fastapi-pod
     spec:
       containers:
-        - name: agent-python-fastapi
-          image: {APP-IMAGE-NAME}
-          ports:
-            - name: fastapi-port
-              containerPort: 8000
-          env:
-          - name: license
-            value: {license}
-          - name: whatap_server_host
-            value: {whatap_server_host}
-          - name: app_name
-            value: {app_name}
-          - name: app_process_name
-            value: {app_process_name}
-          - name: NODE_IP
-            valueFrom: { fieldRef: { fieldPath: status.hostIP } }
-          - name: NODE_NAME
-            valueFrom: { fieldRef: { fieldPath: spec.nodeName } }
-          - name: POD_NAME
-            valueFrom: { fieldRef: { fieldPath: metadata.name } }
-
+      - name: agent-python-fastapi
+        image: whatap/agent-python-fastapi:latest
+        ports:
+        - name: fastapi-port
+          containerPort: 9000
+        env:
+        - name: license
+          value: {license}
+        - name: whatap_server_host
+          value: {whatap_server_host}
+        - name: app_name
+          value: {app_name}
+        - name: app_process_name
+          value: gunicorn
+        - name: whatap.okind
+          value: "TEST"
+        - name: NODE_IP
+          valueFrom: { fieldRef: { fieldPath: status.hostIP } }
+        - name: NODE_NAME
+          valueFrom: { fieldRef: { fieldPath: spec.nodeName } }
+        - name: POD_NAME
+          valueFrom: { fieldRef: { fieldPath: metadata.name } }
 ---
 apiVersion: v1
 kind: Service
