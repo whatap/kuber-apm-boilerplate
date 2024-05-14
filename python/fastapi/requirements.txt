@@ -17,6 +17,5 @@ starlette==0.27.0
 typing_extensions==4.6.3
 urllib3==2.0.3
 uvicorn==0.22.0
-kubernetes==27.2.0
 gunicorn
-whatap-python
+whatap-python==1.6.4
